@@ -1,63 +1,33 @@
-version: '3'
+version: "3.7"
 services:
-  app:
+  app_container:
     build:
       context: .
       dockerfile: Dockerfile
-    networks:
-      - anana-node-network
-    ports:
-      - $NODE_PORT:$NODE_PORT
+    container_name: booking-app
     env_file:
       - .env
-    depends_on:
-      - mongo
-    restart: always
-    environment:
-      - DB_HOST=mongo
-      - DB_PORT=27017
-      - DB_USER=$MONGO_USER
-      - DB_PASS=$MONGO_PASS
+    ports:
+      - 6000:6000
 
-  mongo:
-    image: mongo
-    restart: always
-    networks:
-      - anana-mongo-network
-      - anana-node-network
+  mongodb_container:
+    image: mongo:latest
+    container_name: booking-local-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: booking
+      MONGO_INITDB_ROOT_PASSWORD: booking
+    ports:
+      - 27017:27017
     volumes:
-      - mongo-data:/data/db
-    env_file:
-      - .env
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: $MONGO_USER
-      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASS
-    ports:
-      - $MONGO_PORT:$MONGO_PORT
+      - mongodb_data_container:/data/db
 
-  mongo-express:
-    image: mongo-express
-    restart: always
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: booking-grafana
     ports:
-      - $MONGO_EXP_PORT:$MONGO_EXP_PORT
-    networks:
-      - anana-mongo-network
-    depends_on:
-      - mongo
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: $MONGO_USER
-      ME_CONFIG_MONGODB_ADMINPASSWORD: $MONGO_PASS
-      ME_CONFIG_MONGODB_PORT: $MONGO_PORT
-      ME_CONFIG_MONGODB_SERVER: mongo
-      ME_CONFIG_BASICAUTH_USERNAME: $MONGO_EXP_USER
-      ME_CONFIG_BASICAUTH_PASSWORD: $MONGO_EXP_PASS
+     - '3000:3000'
 
-networks:
-  anana-node-network:
-    driver: bridge
-  anana-mongo-network:
-    driver: bridge
+  
 
 volumes:
-  mongo-data:
-    driver: local
+  mongodb_data_container:
