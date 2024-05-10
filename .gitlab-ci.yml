@@ -1,0 +1,20 @@
+build:
+  stage: build
+  script:
+    - docker-compose build
+  only:
+    - develop
+  tags:
+    - docker
+    - idp
+
+deploy:
+  stage: deploy
+  script:
+    - docker-compose up -d
+  only:
+    - develop
+  tags:
+    - docker
+    - idp
+  
