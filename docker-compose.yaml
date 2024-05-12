@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: booking-app
+    container_name: booking-app:latest
     env_file:
       - .env
     ports:
