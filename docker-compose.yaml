@@ -4,7 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: booking-app:latest
+    image: lauraflorina200178/booking-app:latest  # Correctly define the image name and tag
+    container_name: booking-app
     env_file:
       - .env
     ports:
@@ -25,9 +26,7 @@ services:
     image: grafana/grafana-enterprise
     container_name: booking-grafana
     ports:
-     - '3000:3000'
-
-  
+      - '3000:3000'
 
 volumes:
   mongodb_data_container:
