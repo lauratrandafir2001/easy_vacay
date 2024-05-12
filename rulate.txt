@@ -1,0 +1,41 @@
+Docker Compose:
+
+docker compose up -d
+docker compose down
+
+
+portriner: 9000
+admin
+adminbooking
+
+prometeus: 9090
+-
+
+mongo express: 8081
+admin 
+pass
+
+
+Commands local:
+docker swarm init --advertise-addr 127.0.0.1              
+docker build -t booking-app .
+docker stack deploy -c my_stack.yml booking_stack     
+docker network ls
+docker stack ps booking_stack
+docker swarm leave --force
+
+
+
+Commands docker play:
+git clone https://gitlab.cs.pub.ro/easyvacay/be.git
+cd be
+git checkout develop
+docker build -t booking-app .
+docker swarm init --advertise-addr 192.168.0.8
+docker stack deploy -c my_stack.yml booking_stack
+docker stack ps booking_stack
+docker swarm leave --force
+
+
+
+
