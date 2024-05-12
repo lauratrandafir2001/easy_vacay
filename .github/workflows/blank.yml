@@ -22,9 +22,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Tag Docker image
-        run: docker tag booking-app lauraflorina200178/booking-app
-
       - name: Publish Docker image
         run: docker push lauraflorina200178/booking-app
 
